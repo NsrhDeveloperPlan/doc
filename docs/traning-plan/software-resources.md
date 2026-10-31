@@ -113,7 +113,7 @@ git是一个分布式版本控制软件，用它就可以很方便的保存不�
 
 这是一个加密软件，使用 opengpg 标准。你简单理解为：opengpg是一套加密标准，gpgwin4是实现它的面向windows 的软件。你可以使用非对称密钥（通常为rsa）加密信息从而达到交流的效果。~~聪明的小朋友就会问啦，主播主播这个能干吗呢？我也不知道能干嘛~~
 
-那么在这里的用处，你可以将你的公钥上传到github，这样对你的git提交可以用你本地的私钥进行签名，github可以利用公钥验证你的签名，**确认你是你**![gpg加密](https://doc.lin-fun.com/server/?s=/api/attachment/visitFile&sign=805e8c8c8ed55d2e4ca97b41b1fde7bc "gpg加密")
+那么在这里的用处，你可以将你的公钥上传到github，这样对你的git提交可以用你本地的私钥进行签名，github可以利用公钥验证你的签名，**确认你是你**![gpg加密](/image/github-verified.png "gpg加密")
 
 > 以上两个软件涉及到利用命令行进行配置，请自行搜索b站查阅配置资料
 

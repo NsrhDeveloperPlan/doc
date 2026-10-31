@@ -16,12 +16,12 @@ export default defineConfig({
   titleTemplate: ':title | NsrhDeveloperPlan',  // 浏览器标签标题
   appearance: true, // 黑白切换
   lastUpdated: true,// 从 Git 提交读取修改时间。
-  // 保留默认 .html 地址；启用 cleanUrls 前需确认服务器支持无后缀路由。
+  // 使用无后缀地址；部署服务器需支持将其解析到对应 HTML 文件。
   cleanUrls: true,
   // HTML <head> 元信息。未确定正式域名，因此暂不配置 canonical / og:url。
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: favicon }],
-    ['meta', { name: 'theme-color', content: '#be123c' }],
+    ['link', { rel: 'icon', type: 'image/png', href: favicon }],
+    ['meta', { name: 'theme-color', content: '#C8161D' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'NsrhDeveloperPlan' }]
   ],
@@ -76,9 +76,10 @@ export default defineConfig({
           text: '文档维护指南',
           collapsed: false,
           items: [
-            { text: '开始使用', link: '/guide/getting-started' },
-            { text: '图标与网站设置', link: '/guide/branding' },
-            { text: 'VitePress 配置与写作示例', link: '/guide/vitepress-example' }
+            { text: '维护入门', link: '/guide/getting-started' },
+            { text: '文档编写与导航', link: '/guide/vitepress-example' },
+            { text: '网站设置与主题', link: '/guide/branding' },
+            { text: 'Git 协作要求', link: '/guide/git-workflow' }
           ]
         }
       ]
@@ -100,7 +101,33 @@ export default defineConfig({
     ],
 
     // 本地全文搜索，无需配置外部搜索服务；正式索引在构建时生成。
-    search: { provider: 'local' },
+    search: {
+      provider: 'local',
+      options: {
+        // 本地搜索的按钮、弹窗提示与键盘操作说明。
+        translations: {
+          button: {
+            buttonText: '搜索文档',
+            buttonAriaLabel: '搜索文档'
+          },
+          modal: {
+            displayDetails: '显示详细结果',
+            resetButtonTitle: '清空搜索',
+            backButtonTitle: '返回搜索',
+            noResultsText: '未找到相关结果：',
+            footer: {
+              selectText: '选择',
+              selectKeyAriaLabel: '回车键',
+              navigateText: '切换结果',
+              navigateUpKeyAriaLabel: '向上方向键',
+              navigateDownKeyAriaLabel: '向下方向键',
+              closeText: '关闭',
+              closeKeyAriaLabel: '退出键'
+            }
+          }
+        }
+      }
+    },
 
     // 右侧文章目录：收录 Markdown 的二级和三级标题（## 与 ###）。
     outline: { label: '目录', level: [2, 3] },

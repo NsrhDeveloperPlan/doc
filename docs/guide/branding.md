@@ -1,52 +1,87 @@
 ---
-title: 自定义图标、Logo 与网站设置
+title: 网站设置与主题
+description: 维护网站配置、Logo、主题颜色、首页和中文搜索
 ---
 
-# 自定义图标、Logo 与网站设置
+# 网站设置与主题
 
-## 三种图标位置
+## 先找到正确的文件
 
-| 位置 | 配置 | 当前资源 |
-| --- | --- | --- |
-| 浏览器标签页 | 网站级 head 中的 link | public/favicon.svg |
-| 左上角导航栏 | themeConfig.logo | public/logo-light.svg 与 logo-dark.svg |
-| 导航栏自定义书本图标 | themeConfig.socialLinks 的 icon.svg | config.mts 中的 bookIcon |
+| 修改目标 | 文件与配置 |
+| --- | --- |
+| 站点名、描述、浏览器标题 | `config.mts` 的 title、description、titleTemplate |
+| 顶部显示的名称 | `themeConfig.siteTitle` |
+| 顶部导航与分类菜单 | `themeConfig.nav` 与 sidebar |
+| 搜索按钮和弹窗文案 | `themeConfig.search.options.translations` |
+| 明暗切换 | 网站级 appearance |
+| 首页标题、按钮和卡片 | `docs/index.md` 的 hero、features |
+| 品牌颜色与 Logo 光晕 | `docs/.vitepress/theme/custom.css` |
 
-Logo 使用红帽与书本的简单 SVG 教学图形，可以直接修改颜色和路径。SVG 是矢量图，放大不会模糊。
+表中的 `config.mts` 指 `docs/.vitepress/config.mts`。修改已有配置项，避免重复定义同名对象覆盖其他设置。
 
-## 自己替换 Logo
+## 替换 Logo 与浏览器图标
 
-1. 把图片放进 `docs/public/`，例如 `my-logo.svg` 或 `my-logo.png`。
-2. 在 `config.mts` 中改成 `logo: { src: '/my-logo.svg', alt: '网站名称' }`。
-3. 首页的图片独立配置在 `docs/index.md` 的 `hero.image`，需要同步替换。
+当前导航栏、首页 Logo 和 favicon 都使用 `docs/public/favicon.png`。
 
-当前使用 `light` / `dark` 两张图片，点击导航栏明暗切换按钮可对比效果。
+- 浏览器图标：`config.mts` 的 `head` 中 `rel: 'icon'`。
+- 导航栏 Logo：`themeConfig.logo`。
+- 首页大 Logo：`docs/index.md` 的 `hero.image`。
 
-## 自定义 SVG 图标
+只替换同名图片即可更新资源；换文件名时要同步修改上述引用。PNG 的 MIME 类型是 `image/png`，SVG 则是 `image/svg+xml`。
 
-`config.mts` 中的 `bookIcon` 是 SVG 字符串，传给 `icon: { svg: bookIcon }`。
-`viewBox` 定义坐标范围，`path` 定义形状，`currentColor` 让线条随主题颜色变化。
-可以用自己信任的本地 SVG 替换字符串。该方式不需要安装图标库。
+浅色与深色可以配置不同图片：
 
-首页卡片也支持图标：当前一个使用 emoji，另一个通过 `icon.src` 引用本地 SVG。
+```ts
+logo: {
+  light: '/logo-light.png',
+  dark: '/logo-dark.png',
+  alt: '网站 Logo'
+}
+```
 
-## 网站设置分别影响什么
+这是写法示例，使用前需提供对应图片。透明背景图片更方便与首页光晕融合。
 
-- `title`：站点名称；`titleTemplate`：浏览器标签页标题格式。
-- `description`：全站默认描述，文章可用 frontmatter 单独覆盖。
-- `base`：部署路径；浏览器图标地址也使用这个变量拼接。
-- `head`：favicon、浏览器主题颜色和社交分享站点名称等元信息。
-- `appearance`：明暗主题切换。
-- `lastUpdated`：从 Git 获取最近提交时间，新页面提交后才有时间。
-- `markdown.lineNumbers`：代码块显示行号。
-- `themeConfig.siteTitle`：仅导航栏显示的名称。
+## 自定义社交图标
 
-还未确定正式域名，因此 canonical、og:url 和分享图片留待部署时填写。编辑链接保留为注释示例，确认编辑分支后再启用。
+`themeConfig.socialLinks` 当前包含 GitHub 与邮件入口。邮件使用 `mailto:` 地址，点击后调用访问者的邮件应用，不会由网站直接发送邮件。
 
-## URL 与部署
+自定义图标通过 `icon: { svg: 'SVG 字符串' }` 配置，并补充 `ariaLabel`。默认主题会对 SVG 设置 `fill: currentColor`，应使用适配填充的路径，或在子图形上明确指定 `fill="none"`，避免空心图标被填成实心块。
 
-目前保留 `.html` 路由。设置 `cleanUrls: true` 后，需确保托管服务能把无后缀地址解析到对应 HTML 文件。
+## 修改品牌颜色
 
-修改完成后执行 `pnpm docs:build`，再用 `pnpm docs:preview` 检查构建结果。
+`theme/index.ts` 继承默认主题并加载 `custom.css`。只需覆盖主题变量，不修改依赖包中的文件。
 
-参考：[官方主题配置](https://vitepress.dev/zh/reference/default-theme-config) · [官方网站配置](https://vitepress.dev/zh/reference/site-config)
+```css
+:root {
+  --vp-c-brand-1: #c8161d; /* 链接与选中状态 */
+  --vp-c-brand-2: #ad1319; /* 悬停颜色 */
+  --vp-c-brand-3: #c8161d; /* 品牌按钮背景 */
+  --vp-c-brand-soft: rgba(200, 22, 29, 0.14);
+}
+```
+
+`.dark` 中单独配置深色模式，文字采用较亮的红色以便阅读。修改后同时检查链接、按钮、选中菜单和明暗主题；`head` 中的 `theme-color` 仅影响部分浏览器界面，不能代替网站 CSS。
+
+## 修改首页 Logo 光晕
+
+仍在 `custom.css` 中调整：
+
+```css
+:root {
+  --vp-home-hero-image-background-image:
+    linear-gradient(135deg, #c8161d 0%, #ffffff 50%, #363aa1 100%);
+  --vp-home-hero-image-filter: blur(56px);
+}
+```
+
+目前使用红、白、蓝渐变，深色模式降低了透明度。渐变控制颜色与方向，blur 控制边缘柔和程度；不需要修改 Logo 图片本身。
+
+## 路径与部署设置
+
+当前 `base` 为 `/`，`cleanUrls` 已启用。部署到 `/doc/` 子路径时修改 `base` 并重新构建，同时检查图片与 favicon 地址。启用 cleanUrls 的托管服务应支持无后缀地址解析到 HTML 文件，部署后直接刷新深层页面验证是否出现 404。
+
+`lastUpdated` 从 Git 读取更新时间，未提交的新文章没有该时间。`editLink` 仍为注释示例，启用前确认仓库和编辑分支；正式域名相关的 canonical 与分享地址应在明确部署地址后填写。
+
+## 修改后检查
+
+运行 `pnpm docs:build` 和 `pnpm docs:preview`，检查首页、任一培训页面和维护页面，以及手机宽度和深色模式。构建成功仅表示静态构建通过，视觉效果仍需在浏览器检查。

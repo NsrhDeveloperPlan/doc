@@ -1,42 +1,68 @@
-# 开始使用
+---
+title: 维护入门
+description: 新维护者从环境准备到提交文档的操作入口
+---
 
-本站使用 VitePress 构建，使用 pnpm 管理依赖。文档面向公众，请勿提交密码、令牌、个人隐私或内部资料。
+# 文档维护指南
 
-## 环境准备
+本节面向文档贡献者。第一次参与请按下列顺序操作；分支与签名要求以仓库根目录 `AGENTS.md` 为准。
 
-使用 Node.js 22 或更高版本，以及 pnpm 12.15.0。项目的 `packageManager` 字段固定了 pnpm 版本。
+## 按任务查找
 
-在仓库根目录安装依赖：
+| 我要做什么 | 阅读文档 |
+| --- | --- |
+| 新增文章、添加导航、整理标题 | [文档编写与导航](./vitepress-example.md) |
+| 修改首页、Logo、主题颜色或搜索 | [网站设置与主题](./branding.md) |
+| 创建分支、签名提交、提 PR 或发布 | [Git 协作要求](./git-workflow.md) |
 
-```sh
+## 准备开发环境
+
+需要 Git、Node.js 22 或以上、pnpm 12.15.0。先完成 [Git 身份与签名配置](./git-workflow.md#首次配置)，再开始贡献。
+
+所有命令在 `nsrh-doc` 仓库根目录运行，该目录包含 `package.json`。
+
+```bash
 pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-仓库仅允许 `esbuild` 执行依赖安装脚本，这是构建工具所需的安装步骤。
+打开终端显示的本地地址。修改 `docs/` 下的文件后，开发页面会自动更新。
 
-## 本地开发
+::: tip Windows 与 WSL
+如果仓库与依赖位于 WSL，请在 VS Code 中使用“WSL: Reopen Folder in WSL”，确认左下角显示 WSL: Debian。仅把终端切换成 WSL，不能让 Windows 编辑器正确解析 Linux 中的依赖。
+:::
 
-```sh
-pnpm docs:dev
-```
+## 常用文件
 
-打开终端显示的本地地址，修改 `docs/` 下的 Markdown 文件即可预览变更。
+| 文件或目录 | 维护内容 |
+| --- | --- |
+| `docs/index.md` | 首页标题、按钮、Logo 和介绍卡片 |
+| `docs/traning-plan/` | 培训计划文章（沿用现有目录拼写） |
+| `docs/guide/` | 文档维护指南 |
+| `docs/.vitepress/config.mts` | 导航、侧边栏、搜索及网站设置 |
+| `docs/.vitepress/theme/custom.css` | 品牌色、首页光晕等样式 |
+| `docs/public/` | 图片与其他静态资源 |
+| `AGENTS.md` | 分支、签名、提交与发布约定 |
 
-## 构建与预览
+## 一次修改的完整流程
 
-```sh
+1. 确认工作区状态，从最新 `dev` 创建独立分支，命令见 [Git 协作要求](./git-workflow.md)。
+2. 修改文章或配置，新增页面时同步添加对应分类的侧边栏入口。
+3. 用 `pnpm dev` 检查页面、目录跳转和链接；涉及样式时检查明暗主题与手机宽度。
+4. 执行下列构建检查，再检查构建预览。
+5. 查看 Git 差异，创建签名提交，推送功能分支并提 PR 到 `dev`。
+
+```bash
 pnpm docs:build
 pnpm docs:preview
 ```
 
-构建产物位于 `docs/.vitepress/dist/`，无需提交到 Git。预览命令用于检查已构建的静态站点，不作为生产服务器。
+修改源码后需重新构建，`docs:preview` 才会显示新内容。构建产物在 `docs/.vitepress/dist/`，不提交到 Git；预览命令用于验收，不是生产服务器。
 
-## 新增文档
+## 提交前检查
 
-1. 基于最新 `dev` 创建独立的功能分支。
-2. 在 `docs/` 中按主题新增 Markdown 文件。
-3. 在 `docs/.vitepress/config.mts` 中更新对应导航或侧边栏。
-4. 运行 `pnpm docs:build`，并检查本地预览的内容与链接。
-5. 按 `AGENTS.md` 的签名及提交规范提交，通过 PR 合入 `dev`。
-
-当前未配置部署流程。站点默认部署于域名根路径；若以后部署到 GitHub Pages 的 `/doc/` 子路径，需先在 VitePress 配置中设置 `base: '/doc/'`，再构建发布。
+- 页面归类正确，导航与侧边栏都能进入页面。
+- 一篇文章只保留一个一级标题，右侧目录层级合理。
+- 链接和图片有效，构建无错误；不通过忽略失效链接来掩盖问题。
+- 不提交密码、令牌、私钥、内部资料或个人隐私。
+- 只暂存本次相关文件，确认未加入依赖、缓存和构建产物。

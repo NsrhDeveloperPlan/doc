@@ -1,5 +1,14 @@
 // @ts-ignore Windows 本地编辑器无法解析 WSL 中的依赖
 import { defineConfig } from 'vitepress'
+import { execFileSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
+
+// 本地开发使用展示占位；正式构建读取真实提交，兼容 CI 的 detached HEAD。
+const isBuild = process.argv.includes('build')
+const commit = isBuild ? execFileSync('git', ['rev-parse', 'HEAD'], {
+  cwd: fileURLToPath(new URL('../..', import.meta.url)),
+  encoding: 'utf8'
+}).trim() : ''
 
 // favicon 统一在这里维护。
 const base = '/'
@@ -32,6 +41,7 @@ export default defineConfig({
 
   // VitePress 默认主题
   themeConfig: {
+    buildCommit: { hash: commit ? commit.slice(0, 7) : 'a1b2c3d', url: commit ? `https://github.com/NsrhDeveloperPlan/doc/commit/${commit}` : 'https://github.com/NsrhDeveloperPlan/doc/commits/dev/' },
     // public 下的资源直接使用 /文件名，主题会自动处理部署 base。
     logo: { light: favicon, dark: favicon, alt: '家协文档 Logo' },
     // 导航栏title。
@@ -42,8 +52,8 @@ export default defineConfig({
     darkModeSwitchLabel: '外观',
     lightModeSwitchTitle: '切换至浅色模式',
     darkModeSwitchTitle: '切换至深色模式',
-    // 如需“编辑此页”，确认目标分支后启用；:path 会替换为 Markdown 路径。
-    // editLink: { pattern: 'https://github.com/NsrhDeveloperPlan/doc/edit/dev/docs/:path', text: '在 GitHub 编辑此页' },
+    // 编辑入口指向 dev 分支；:path 会替换为当前 Markdown 的相对路径。
+    editLink: { pattern: 'https://github.com/NsrhDeveloperPlan/doc/edit/dev/docs/:path', text: '在 GitHub 上编辑此页' },
     // 顶部导航：text 是显示文字，link 是访问地址。
     // docs/ 是内容根目录，不写进链接；Markdown 页面的链接也不用写 .md。
     nav: [

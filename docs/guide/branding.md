@@ -80,7 +80,7 @@ logo: {
 
 当前 `base` 为 `/`，`cleanUrls` 已启用。部署到 `/doc/` 子路径时修改 `base` 并重新构建，同时检查图片与 favicon 地址。启用 cleanUrls 的托管服务应支持无后缀地址解析到 HTML 文件，部署后直接刷新深层页面验证是否出现 404。
 
-`lastUpdated` 从 Git 读取更新时间，未提交的新文章没有该时间。`editLink` 仍为注释示例，启用前确认仓库和编辑分支；正式域名相关的 canonical 与分享地址应在明确部署地址后填写。
+`lastUpdated` 从 Git 读取更新时间，未提交的新文章没有该时间。`editLink` 已启用，页面底部的“在 GitHub 编辑此页”指向 `NsrhDeveloperPlan/doc` 仓库 `dev` 分支的对应 Markdown 文件；正式域名相关的 canonical 与分享地址应在明确部署地址后填写。
 
 ## 修改后检查
 

@@ -32,3 +32,19 @@
     rgba(54, 58, 161, 0.65) 100%
   );
 }
+
+/* 使用固定北京时间、精确到秒的文档更新时间。 */
+.VPDocFooter .edit-info { display: none; }
+.document-footer-info { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-bottom: 18px; }
+.document-edit-link { display: inline-flex; align-items: center; gap: 8px; color: var(--vp-c-brand-1); font-size: 14px; font-weight: 500; line-height: 32px; }
+.document-updated { margin: 0; margin-left: auto; color: var(--vp-c-text-2); font-size: 14px; font-weight: 500; line-height: 24px; text-align: right; }
+.build-commit { display: inline-flex; align-items: center; gap: 6px; margin-left: 16px; flex-shrink: 0; order: 1; color: var(--vp-c-text-2); font-family: var(--vp-font-family-mono); font-size: 13px; white-space: nowrap; }
+.build-commit:hover { color: var(--vp-c-brand-1); }
+.build-commit:hover .build-commit-hash,
+.build-commit:focus-visible .build-commit-hash { text-decoration: underline; text-underline-offset: 3px; }
+
+/* 与 VitePress 默认页脚保持一致的分隔线间距。 */
+@media (min-width: 640px) {
+  .document-footer-info { padding-bottom: 14px; }
+  .document-updated { line-height: 32px; }
+}

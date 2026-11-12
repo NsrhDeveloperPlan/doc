@@ -43,6 +43,48 @@
 .build-commit:hover .build-commit-hash,
 .build-commit:focus-visible .build-commit-hash { text-decoration: underline; text-underline-offset: 3px; }
 
+/* 手机导航空间有限，避免提交信息撑出页面宽度。 */
+@media (max-width: 767px) {
+  .build-commit { display: none; }
+}
+
+/* 方向对比表在手机上保留可读列宽，由默认表格容器承接横向滚动。 */
+@media (max-width: 767px) {
+  .learning-plan-overview .vp-doc table th,
+  .learning-plan-overview .vp-doc table td { min-width: 180px; }
+  .learning-plan-overview .vp-doc table th:first-child,
+  .learning-plan-overview .vp-doc table td:first-child { min-width: 80px; }
+}
+
+/* 前端路线的周任务与框架对照表独立适配，避免手机上逐字换行。 */
+@media (max-width: 767px) {
+  .frontend-learning-route .vp-doc table th,
+  .frontend-learning-route .vp-doc table td { min-width: 180px; }
+  .frontend-learning-route .vp-doc table th:first-child,
+  .frontend-learning-route .vp-doc table td:first-child { min-width: 80px; }
+  .frontend-learning-route .vp-doc table th:last-child,
+  .frontend-learning-route .vp-doc table td:last-child { min-width: 260px; }
+}
+
+/* 后端三栈与周任务表在手机上横滑，样式只作用于后端路线页。 */
+@media (max-width: 767px) {
+  .backend-learning-route .vp-doc table th,
+  .backend-learning-route .vp-doc table td { min-width: 180px; }
+  .backend-learning-route .vp-doc table th:first-child,
+  .backend-learning-route .vp-doc table td:first-child { min-width: 80px; }
+  .backend-learning-route .vp-doc table th:last-child,
+  .backend-learning-route .vp-doc table td:last-child { min-width: 260px; }
+}
+
+/* MC 路线表格在手机上保留列宽，使用表格自身的横向滚动。 */
+@media (max-width: 767px) {
+  .minecraft-learning-route .vp-doc table th,
+  .minecraft-learning-route .vp-doc table td { min-width: 180px; }
+  .minecraft-learning-route .vp-doc table th:first-child,
+  .minecraft-learning-route .vp-doc table td:first-child { min-width: 100px; }
+  .minecraft-learning-route .vp-doc table td:nth-child(3) { min-width: 260px; }
+}
+
 /* 与 VitePress 默认页脚保持一致的分隔线间距。 */
 @media (min-width: 640px) {
   .document-footer-info { padding-bottom: 14px; }

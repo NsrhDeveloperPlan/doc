@@ -59,7 +59,7 @@ export default defineConfig({
     nav: [
       {
         text: '培训计划',
-        link: '/traning-plan/software-resources',
+        link: '/traning-plan/',
         activeMatch: '^/traning-plan/'
       },
       {
@@ -77,7 +77,32 @@ export default defineConfig({
           text: '培训计划',
           collapsed: false,
           items: [
+            { text: '学习计划与方向选择', link: '/traning-plan/' },
             { text: '软件资源', link: '/traning-plan/software-resources' }
+          ]
+        },
+        {
+          text: '前端开发',
+          collapsed: false,
+          items: [
+            { text: '路线介绍', link: '/traning-plan/frontend/' },
+            { text: '第 1 周：用 HTML 搭建三页博客', link: '/traning-plan/frontend/week-01' }
+          ]
+        },
+        {
+          text: '后端开发',
+          collapsed: false,
+          items: [
+            { text: '路线介绍与技术栈选择', link: '/traning-plan/backend/' },
+            { text: '第 1 周：启动你的第一个后端服务', link: '/traning-plan/backend/week-01' }
+          ]
+        },
+        {
+          text: 'Minecraft 模组开发',
+          collapsed: false,
+          items: [
+            { text: '路线介绍', link: '/traning-plan/minecraft/' },
+            { text: '第 1 周：用 Java 制作史蒂夫属性面板与伤害计算器', link: '/traning-plan/minecraft/week-01' }
           ]
         }
       ],
